@@ -9,6 +9,7 @@ import java.util.Properties;
 
 public final class Scripts {
 
+    // Чтение файла настроек и установка параметров БД
     public static void propertyInitialization() {
         File propFile = new File("server.properties");
         try (InputStream fileInputStream = new FileInputStream(propFile)) {
