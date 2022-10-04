@@ -1,10 +1,13 @@
 package org.fnt;
 
-import org.fnt.util.Scripts;
+import org.fnt.net.Server;
+import org.fnt.util.ApplicationConfiguration;
 
 public class ServerApplication {
 
     public static void main(String[] args) {
-        Scripts.propertyInitialization();
+        ApplicationConfiguration.propertyInitialization();
+        Server server = new Server();
+        server.start();
     }
 }
