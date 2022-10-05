@@ -1,14 +1,10 @@
-package org.fnt.ui.menu.authentication;
+package org.fnt.ui.menu;
 
-import org.fnt.model.entity.AuthenticationInformation;
 import org.fnt.model.entity.Sendable;
 import org.fnt.model.entity.user.User;
-import org.fnt.model.entity.user.UserType;
 import org.fnt.model.message.Message;
 import org.fnt.model.message.MessageType;
 import org.fnt.ui.MenuHolder;
-import org.fnt.ui.menu.IMenu;
-import org.fnt.ui.menu.MenuType;
 import org.fnt.util.AuthUtils;
 import org.fnt.util.DateFormatUtils;
 import org.fnt.util.PhoneFormatUtils;
@@ -17,23 +13,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class SignupMenu implements IMenu, ActionListener {
-    private MenuType type = MenuType.SIGNUP;
+public class ProfileMenu implements IMenu, ActionListener, MouseListener {
 
-    private GroupLayout layout;
+    private MenuType type = MenuType.USERPROFILE;
     private MenuHolder menuHolder;
     private JPanel panel;
-    private JLabel title, loginLabel, passwordLabel, firstNameLabel,
-            lastNameLabel, middleNameLabel, birthDateLabel, phoneNumberLabel;
-    private JTextField loginField, firstNameField, lastNameField, middleNameField, birthDateField, phoneNumberField;
-    private JPasswordField passwordField;
-    private JCheckBox showPass;
-    private JButton signUp, back;
+    private GroupLayout layout;
 
-    public SignupMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
+    private JLabel title, idLabel, firstNameLabel, lastNameLabel, middleNameLabel, birthDateLabel, phoneNumberLabel;
+    private JTextField idField, firstNameField, lastNameField, middleNameField, birthDateField, phoneNumberField;
+
+    private JButton accept, back;
+
+    public ProfileMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
         this.menuHolder = menuHolder;
         this.panel = panel;
 
@@ -43,96 +38,64 @@ public class SignupMenu implements IMenu, ActionListener {
         Font lableFont = new Font(Font.SERIF, Font.PLAIN, 14);
         Font fieldFont = new Font(Font.SERIF, Font.BOLD, 14);
 
-        title = new JLabel("<html>МЕНЮ РЕГИСТРАЦИИ<hr></html>");
+        title = new JLabel("<html>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ<hr></html>");
         title.setFont(titleFont);
         title.setHorizontalAlignment(SwingConstants.CENTER);
 
-        loginLabel = new JLabel("Логин: ");
-        loginLabel.setFont(lableFont);
-        loginField = new JTextField();
-        loginField.setFont(fieldFont);
-
-        passwordLabel = new JLabel("Пароль: ");
-        passwordLabel.setFont(lableFont);
-        passwordField = new JPasswordField();
-
-        showPass = new JCheckBox();
-        showPass.addActionListener(this);
+        idLabel = new JLabel("ID:");
+        idLabel.setFont(lableFont);
+        idField = new JTextField();
+        idField.setFont(fieldFont);
+        idField.setEditable(false);
 
         firstNameLabel = new JLabel("Имя:");
         firstNameLabel.setFont(lableFont);
         firstNameField = new JTextField();
         firstNameField.setFont(fieldFont);
         firstNameField.setName("firstName");
+        firstNameField.setEditable(false);
+        firstNameField.addMouseListener(this);
 
         lastNameLabel = new JLabel("Фамилия:");
         lastNameLabel.setFont(lableFont);
         lastNameField = new JTextField();
         lastNameField.setFont(fieldFont);
         lastNameField.setName("lastName");
+        lastNameField.setEditable(false);
+        lastNameField.addMouseListener(this);
 
         middleNameLabel = new JLabel("Отчество:");
         middleNameLabel.setFont(lableFont);
         middleNameField = new JTextField();
         middleNameField.setFont(fieldFont);
         middleNameField.setName("middleName");
+        middleNameField.setEditable(false);
+        middleNameField.addMouseListener(this);
 
         birthDateLabel = new JLabel("Дата рождения:");
         birthDateLabel.setFont(lableFont);
         birthDateField = new JTextField();
         birthDateField.setFont(fieldFont);
         birthDateField.setName("birthDate");
+        birthDateField.setEditable(false);
+        birthDateField.addMouseListener(this);
 
         phoneNumberLabel = new JLabel("Номер телефона:");
         phoneNumberLabel.setFont(lableFont);
         phoneNumberField = new JTextField();
         phoneNumberField.setFont(fieldFont);
         phoneNumberField.setName("phoneNumber");
+        phoneNumberField.setEditable(false);
+        phoneNumberField.addMouseListener(this);
 
-        signUp = new JButton("Зарегистрироваться");
-        signUp.setName("SIGNUP");
-        signUp.addActionListener(this);
+        accept = new JButton("СОХРАНИТЬ");
+        accept.setName("ACCEPT");
+        accept.addActionListener(this);
 
-        back = new JButton("Назад");
+        back = new JButton("НАЗАД");
         back.setName("BACK");
         back.addActionListener(this);
-    }
 
-    private boolean registration() {
-        AuthenticationInformation authenticationInformation = new AuthenticationInformation();
-        authenticationInformation.setLogin(loginField.getText());
-
-        authenticationInformation.setPassword(
-                new String(
-                        Base64.getEncoder()
-                                .encode(
-                                        String.valueOf(passwordField.getPassword()).getBytes(StandardCharsets.UTF_8)
-                                )
-                )
-        );
-        Message<Sendable> message = menuHolder.getAuthService().registration(authenticationInformation);
-        if(message.getType().equals(MessageType.ERROR)) {
-            JOptionPane.showMessageDialog(panel,"Такой аккаунт уже существует");
-            return false;
-        }
-        User user = new User(
-                authenticationInformation.getLogin(),
-                firstNameField.getText(),
-                lastNameField.getText(),
-                middleNameField.getText(),
-                DateFormatUtils.parseToLocalDate(birthDateField.getText()),
-                phoneNumberField.getText(),
-                UserType.USER,
-                false
-        );
-        message = menuHolder.getUserService().createUser(user);
-        if(!message.getType().equals(MessageType.ERROR)) {
-            JOptionPane.showMessageDialog(panel,"Пользователь создан успешно");
-        }else {
-            JOptionPane.showMessageDialog(panel,"Создать пользователя не удалось");
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -142,61 +105,98 @@ public class SignupMenu implements IMenu, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if(e.getSource().equals(showPass)) {
-            if(showPass.isSelected()) {
-                passwordField.setEchoChar((char) 0);
-            }else {
-                passwordField.setEchoChar('*');
-            }
-        }
-        if(e.getSource().equals(signUp)) {
-            if(checkFields()) {
-                if(registration()){
-                    clearFields();
-                    menuHolder.getMenu(MenuType.LOGIN).show();
-                }
+        if(e.getSource().getClass().equals(JButton.class)) {
+            JButton button = (JButton) e.getSource();
+            switch (button.getName()) {
+                case "ACCEPT":
+                    checkFields();
+                    update();
+                    break;
+                case "BACK":
+                    menuHolder.getMenu(MenuType.MAIN).show();
+                    break;
             }
         }
 
-        if(e.getSource().equals(back)) {
-            clearFields();
-            menuHolder.getMenu(MenuType.LOGIN).show();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getComponent().getClass().equals(JTextField.class)){
+            JTextField field = (JTextField) e.getComponent();
+            if(field.getName() != null){
+                field.setEditable(true);
+                field.setFocusable(true);
+            }
         }
     }
 
-    private void clearFields() {
-        loginField.setText("");
-        passwordField.setText("");
-        firstNameField.setText("");
-        lastNameField.setText("");
-        middleNameField.setText("");
-        birthDateField.setText("");
-        phoneNumberField.setText("");
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if(e.getComponent().getClass().equals(JTextField.class)){
+            JTextField field = (JTextField) e.getComponent();
+            if(field.getName() != null){
+                field.setFocusable(false);
+                field.setEditable(false);
+            }
+        }
+    }
+
+    public void update() {
+        menuHolder.getUser().setFirstName(firstNameField.getText());
+        menuHolder.getUser().setMiddleName(middleNameField.getText());
+        menuHolder.getUser().setLastName(lastNameField.getText());
+        menuHolder.getUser().setBirthDate(DateFormatUtils.parseToLocalDate(birthDateField.getText()));
+        menuHolder.getUser().setPhoneNumber(phoneNumberField.getText());
+
+        Message<Sendable> message = menuHolder.getUserService().editUser(menuHolder.getUser());
+        if(message.getType().equals(MessageType.ERROR)) {
+            message = menuHolder.getUserService().getUserById(menuHolder.getUser().getId());
+            if(!message.getType().equals(MessageType.ERROR)) {
+                User user = (User) message.getBody().get(0);
+                menuHolder.setUser(user);
+            }else {
+                JOptionPane.showMessageDialog(panel, "Что-то пошло не так, обратитесь к разработчику...");
+                return;
+            }
+            JOptionPane.showMessageDialog(panel, "Не удалось внести изменения, попробуйте еще раз...");
+            return;
+        }else {
+            JOptionPane.showMessageDialog(panel, "Данные о пользователе успешно сохранены...");
+            return;
+        }
+    }
+
+    private void fillField() {
+        idField.setText(menuHolder.getUser().getId());
+        firstNameField.setText(menuHolder.getUser().getFirstName());
+        middleNameField.setText(menuHolder.getUser().getMiddleName());
+        lastNameField.setText(menuHolder.getUser().getLastName());
+        birthDateField.setText(DateFormatUtils.parseToString(menuHolder.getUser().getBirthDate()));
+        phoneNumberField.setText(menuHolder.getUser().getPhoneNumber());
     }
 
     public boolean checkFields() {
         if(
-            loginField.getText().isEmpty() ||
-            passwordField.getPassword().length == 0 ||
             firstNameField.getText().isEmpty() ||
             lastNameField.getText().isEmpty() ||
             middleNameField.getText().isEmpty() ||
             birthDateField.getText().isEmpty() ||
             phoneNumberField.getText().isEmpty()
-
         ) {
             JOptionPane.showMessageDialog(panel,"Заполните указанные поля...");
-            return false;
-        }
-
-        if(!AuthUtils.isNormalLogin(loginField.getText())) {
-            JOptionPane.showMessageDialog(panel,"Логин должен состоять из букв латинского алфавита и знака '_'...");
-            return false;
-        }
-
-        if(!AuthUtils.isNormalPass(String.valueOf(passwordField.getPassword()))) {
-            JOptionPane.showMessageDialog(panel,"Пароль должен состоять из цифр и букв латинского алфавита...");
             return false;
         }
 
@@ -212,9 +212,11 @@ public class SignupMenu implements IMenu, ActionListener {
 
         return true;
     }
+
     @Override
     public void show() {
         panel.removeAll();
+        fillField();
 
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
@@ -223,8 +225,7 @@ public class SignupMenu implements IMenu, ActionListener {
                 .addComponent(title)
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup()
-                                .addComponent(loginLabel)
-                                .addComponent(passwordLabel)
+                                .addComponent(idLabel)
                                 .addComponent(firstNameLabel)
                                 .addComponent(middleNameLabel)
                                 .addComponent(lastNameLabel)
@@ -232,18 +233,14 @@ public class SignupMenu implements IMenu, ActionListener {
                                 .addComponent(phoneNumberLabel)
                         )
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addComponent(loginField)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addComponent(passwordField)
-                                        .addComponent(showPass)
-                                )
+                                .addComponent(idField)
                                 .addComponent(firstNameField)
                                 .addComponent(middleNameField)
                                 .addComponent(lastNameField)
                                 .addComponent(birthDateField)
                                 .addComponent(phoneNumberField)
                                 .addGroup(layout.createSequentialGroup()
-                                        .addComponent(signUp)
+                                        .addComponent(accept)
                                         .addComponent(back)
                                 )
                         )
@@ -253,13 +250,8 @@ public class SignupMenu implements IMenu, ActionListener {
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(title)
                 .addGroup(layout.createParallelGroup()
-                        .addComponent(loginLabel)
-                        .addComponent(loginField)
-                )
-                .addGroup(layout.createParallelGroup()
-                        .addComponent(passwordLabel)
-                        .addComponent(passwordField)
-                        .addComponent(showPass)
+                        .addComponent(idLabel)
+                        .addComponent(idField)
                 )
                 .addGroup(layout.createParallelGroup()
                         .addComponent(firstNameLabel)
@@ -282,14 +274,13 @@ public class SignupMenu implements IMenu, ActionListener {
                         .addComponent(phoneNumberField)
                 )
                 .addGroup(layout.createParallelGroup()
-                        .addComponent(signUp)
+                        .addComponent(accept)
                         .addComponent(back)
                 )
         );
 
         layout.linkSize(SwingConstants.VERTICAL,
-                loginLabel, loginField,
-                passwordLabel, passwordField,
+                idLabel, idField,
                 firstNameLabel, firstNameField,
                 lastNameLabel, lastNameField,
                 middleNameLabel, middleNameField,
@@ -297,7 +288,7 @@ public class SignupMenu implements IMenu, ActionListener {
                 phoneNumberLabel, phoneNumberField
         );
 
-        layout.linkSize(SwingConstants.VERTICAL, signUp, back);
-        layout.linkSize(SwingConstants.HORIZONTAL, signUp,  back);
+        layout.linkSize(SwingConstants.VERTICAL, accept, back);
+        layout.linkSize(SwingConstants.HORIZONTAL, accept,  back);
     }
 }

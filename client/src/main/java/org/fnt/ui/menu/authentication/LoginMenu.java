@@ -59,11 +59,6 @@ public class LoginMenu implements IMenu, ActionListener {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
     public MenuType getType() {
         return type;
     }
@@ -136,7 +131,7 @@ public class LoginMenu implements IMenu, ActionListener {
             }else {
                 return;
             }
-            menuHolder.getMenu(MenuType.MAIN_MENU).show();
+            menuHolder.getMenu(MenuType.MAIN).show();
         }
 
         if(e.getSource().equals(signUp)) {

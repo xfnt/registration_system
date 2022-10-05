@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 
 public class MainMenu implements IMenu, MouseListener {
 
-    private MenuType type = MenuType.MAIN_MENU;
+    private MenuType type = MenuType.MAIN;
 
     private GroupLayout layout;
     private MenuHolder menuHolder;
@@ -67,7 +67,7 @@ public class MainMenu implements IMenu, MouseListener {
                 case "PROFILE":
                     label.setForeground(Color.BLACK);
                     label.setBorder(null);
-//                    menuHolder.getMenu(MenuType.PROFILE_MENU).show();
+                    menuHolder.getMenu(MenuType.USERPROFILE).show();
                     break;
                 case "APPOINTMENT":
                     label.setForeground(Color.BLACK);
@@ -116,9 +116,6 @@ public class MainMenu implements IMenu, MouseListener {
             label.setBorder(null);
         }
     }
-
-    @Override
-    public void update() {}
 
     @Override
     public void show() {

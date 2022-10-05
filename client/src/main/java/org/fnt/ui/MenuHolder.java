@@ -9,6 +9,7 @@ import org.fnt.service.UtilityService;
 import org.fnt.ui.menu.IMenu;
 import org.fnt.ui.menu.MainMenu;
 import org.fnt.ui.menu.MenuType;
+import org.fnt.ui.menu.ProfileMenu;
 import org.fnt.ui.menu.authentication.LoginMenu;
 import org.fnt.ui.menu.authentication.SignupMenu;
 
@@ -39,10 +40,12 @@ public class MenuHolder {
         LoginMenu loginMenu = new LoginMenu(this, panel, layout);
         SignupMenu signupMenu = new SignupMenu(this, panel, layout);
         MainMenu mainMenu = new MainMenu(this, panel, layout);
+        ProfileMenu profileMenu = new ProfileMenu(this, panel, layout);
 
         menuList.add(loginMenu);
         menuList.add(signupMenu);
         menuList.add(mainMenu);
+        menuList.add(profileMenu);
 
         loginMenu.show();
     }
