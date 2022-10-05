@@ -1,6 +1,7 @@
 package org.fnt;
 
 import org.fnt.net.Client;
+import org.fnt.ui.UserInterface;
 import org.fnt.util.ApplicationConfiguration;
 
 public class ClientApplication {
@@ -9,6 +10,7 @@ public class ClientApplication {
         ApplicationConfiguration.propertyInitialization();
 
         Client client = new Client();
-        client.start();
+        UserInterface ui = new UserInterface(client);
+        ui.start();
     }
 }
