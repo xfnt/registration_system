@@ -60,6 +60,15 @@ public class MessageService {
             }
         }
 
+        // Редактирование пользователя
+        if(message.getText().equals("-EDIT_USER")) {
+            if(userService.editUser((User) message.getBody().get(0))) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-EDIT_USER_SUCCESS", null));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-CREATE_USER_FAILED", null));
+            }
+        }
+
         // Корректный разрыв соединения с пользователем
         if(message.getText().equals("-EXIT")) {
             clientHandler.changeStateToFalse();
