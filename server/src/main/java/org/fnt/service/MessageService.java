@@ -7,8 +7,10 @@ import org.fnt.model.message.Message;
 import org.fnt.model.message.MessageType;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MessageService {
+    private Logger log = Logger.getLogger(this.getClass().getName());
     private ClientHandler clientHandler;
     private AuthenticationService authenticationService;
     private UserService userService;
@@ -66,6 +68,24 @@ public class MessageService {
                 clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-EDIT_USER_SUCCESS", null));
             }else {
                 clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-CREATE_USER_FAILED", null));
+            }
+        }
+
+        // Получение списка всех пользователей
+        if(message.getText().equals("-GET_ALL_USER")) {
+            List<User> userList = userService.getAll();
+            if(userList != null) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-GET_ALL_USERS_SUCCESS", userList));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-GET_ALL_USERS_FAILED", null));
+            }
+        }
+
+        if(message.getText().equals("-UPDATE_USER_LIST")){
+            if(userService.updateAll(message.getBody().stream().map(u->(User) u).toList())) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-UPDATE_USER_LIST_SUCCESS", null));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-UPDATE_USER_LIST_FAILED", null));
             }
         }
 

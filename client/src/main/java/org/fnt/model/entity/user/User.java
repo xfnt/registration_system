@@ -101,6 +101,36 @@ public class User implements Sendable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (deleted != user.deleted) return false;
+        if (!id.equals(user.id)) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
+        if (middleName != null ? !middleName.equals(user.middleName) : user.middleName != null) return false;
+        if (!birthDate.equals(user.birthDate)) return false;
+        if (!phoneNumber.equals(user.phoneNumber)) return false;
+        return type == user.type;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
+        result = 31 * result + birthDate.hashCode();
+        result = 31 * result + phoneNumber.hashCode();
+        result = 31 * result + type.hashCode();
+        result = 31 * result + (deleted ? 1 : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +

@@ -13,7 +13,7 @@ public class MessageService {
     }
 
     public Message read() {
-        Message message = (Message) client.read();
+        Message message = client.read();
         if(message.getType().equals(MessageType.RESPONSE) || message.getType().equals(MessageType.ERROR)) {
             return message;
         }

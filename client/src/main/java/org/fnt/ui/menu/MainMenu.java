@@ -44,7 +44,7 @@ public class MainMenu implements IMenu, MouseListener {
         timesheetMenu.addMouseListener(this);
 
         allUserListMenu = new JLabel("<html>СПИСОК ПОЛЬЗОВАТЕЛЕЙ (только для администратора)</html>", JLabel.CENTER);
-        allUserListMenu.setName("USERLIST");
+        allUserListMenu.setName("RIGHTS");
         allUserListMenu.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
         allUserListMenu.addMouseListener(this);
 
@@ -78,6 +78,11 @@ public class MainMenu implements IMenu, MouseListener {
                     label.setForeground(Color.BLACK);
                     label.setBorder(null);
 //                    menuHolder.getMenu(MenuType.TIMESHEET).show();
+                    break;
+                case "RIGHTS":
+                    label.setForeground(Color.BLACK);
+                    label.setBorder(null);
+                    menuHolder.getMenu(MenuType.RIGHTS).show();
                     break;
                 case "EXIT":
                     label.setForeground(Color.BLACK);

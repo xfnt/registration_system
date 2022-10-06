@@ -8,7 +8,6 @@ import org.fnt.model.message.MessageType;
 import java.util.List;
 
 public class UserService {
-
     private MessageService messageService;
 
     public UserService(MessageService messageService) {
@@ -71,6 +70,18 @@ public class UserService {
                         "",
                         "-GET_EMPPLOYEES",
                         null));
+        message = messageService.read();
+        return message;
+    }
+
+    public Message<Sendable> updateAll(List<User> changedUserList) {
+        Message message = null;
+        messageService.write(
+                new Message(
+                        MessageType.REQUEST,
+                        "",
+                        "-UPDATE_USER_LIST",
+                        changedUserList));
         message = messageService.read();
         return message;
     }

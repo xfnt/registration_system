@@ -6,12 +6,10 @@ import org.fnt.service.AuthenticationService;
 import org.fnt.service.MessageService;
 import org.fnt.service.UserService;
 import org.fnt.service.UtilityService;
-import org.fnt.ui.menu.IMenu;
-import org.fnt.ui.menu.MainMenu;
-import org.fnt.ui.menu.MenuType;
-import org.fnt.ui.menu.ProfileMenu;
+import org.fnt.ui.menu.*;
 import org.fnt.ui.menu.authentication.LoginMenu;
 import org.fnt.ui.menu.authentication.SignupMenu;
+import org.fnt.ui.menu.rights.RightsMenu;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -42,10 +40,14 @@ public class MenuHolder {
         MainMenu mainMenu = new MainMenu(this, panel, layout);
         ProfileMenu profileMenu = new ProfileMenu(this, panel, layout);
 
+        RightsMenu rightsMenu = new RightsMenu(this, panel, layout);
+
         menuList.add(loginMenu);
         menuList.add(signupMenu);
         menuList.add(mainMenu);
         menuList.add(profileMenu);
+
+        menuList.add(rightsMenu);
 
         loginMenu.show();
     }

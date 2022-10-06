@@ -32,4 +32,12 @@ public class UserService {
     public List<User> getAllByType(UserType type) {
         return repository.getAllByType(type);
     }
+
+    public boolean updateAll(List<User> userList) {
+        boolean success = true;
+        for(User u : userList) {
+            if(!editUser(u)) success = false;
+        }
+        return success;
+    }
 }

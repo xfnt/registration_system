@@ -5,7 +5,6 @@ import org.fnt.model.entity.user.User;
 import org.fnt.model.message.Message;
 import org.fnt.model.message.MessageType;
 import org.fnt.ui.MenuHolder;
-import org.fnt.util.AuthUtils;
 import org.fnt.util.DateFormatUtils;
 import org.fnt.util.PhoneFormatUtils;
 
