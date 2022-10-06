@@ -73,7 +73,7 @@ public class ClientHandler {
             throw new RuntimeException(e);
         }
         try {
-            output.flush();
+            output.reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -64,54 +64,6 @@ public class LoginMenu implements IMenu, ActionListener {
     }
 
     @Override
-    public void show() {
-        panel.removeAll();
-
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(layout.createParallelGroup()
-                .addComponent(programName)
-                .addComponent(title)
-                .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup()
-                                .addComponent(loginLabel)
-                                .addComponent(passwordLabel)
-                        )
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addComponent(loginField)
-                                .addComponent(passwordField)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addComponent(logIn)
-                                        .addComponent(signUp)
-                                )
-                        )
-                        .addComponent(showPass)
-                )
-        );
-
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(programName)
-                .addComponent(title)
-                .addGroup(layout.createParallelGroup()
-                        .addComponent(loginLabel)
-                        .addComponent(loginField)
-                )
-                .addGroup(layout.createParallelGroup()
-                        .addComponent(passwordLabel)
-                        .addComponent(passwordField)
-                        .addComponent(showPass)
-                )
-                .addGroup(layout.createParallelGroup()
-                        .addComponent(logIn)
-                        .addComponent(signUp)
-                )
-        );
-
-        layout.linkSize(SwingConstants.VERTICAL, loginLabel, loginField, passwordLabel, passwordField, logIn, signUp);
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(showPass)){
             if (showPass.isSelected()) {
@@ -158,5 +110,53 @@ public class LoginMenu implements IMenu, ActionListener {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void show() {
+        panel.removeAll();
+
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(layout.createParallelGroup()
+                .addComponent(programName)
+                .addComponent(title)
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup()
+                                .addComponent(loginLabel)
+                                .addComponent(passwordLabel)
+                        )
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                .addComponent(loginField)
+                                .addComponent(passwordField)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(logIn)
+                                        .addComponent(signUp)
+                                )
+                        )
+                        .addComponent(showPass)
+                )
+        );
+
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addComponent(programName)
+                .addComponent(title)
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(loginLabel)
+                        .addComponent(loginField)
+                )
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(passwordLabel)
+                        .addComponent(passwordField)
+                        .addComponent(showPass)
+                )
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(logIn)
+                        .addComponent(signUp)
+                )
+        );
+
+        layout.linkSize(SwingConstants.VERTICAL, loginLabel, loginField, passwordLabel, passwordField, logIn, signUp);
     }
 }

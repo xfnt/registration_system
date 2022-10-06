@@ -30,7 +30,7 @@ public class Client {
         }
     }
 
-    public Object read() {
+    public Message read() {
         if(input == null) {
             try {
                 input = new ObjectInputStream(socket.getInputStream());
@@ -38,13 +38,15 @@ public class Client {
                 throw new RuntimeException(e);
             }
         }
+        Message message = null;
         try {
-            return input.readObject();
+            message = (Message) input.readObject();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return message;
     }
 
     public void write(Message message) {
@@ -62,6 +64,7 @@ public class Client {
         }
         try {
             output.flush();
+            output.reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

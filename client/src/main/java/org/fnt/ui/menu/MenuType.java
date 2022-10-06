@@ -4,6 +4,7 @@ public enum MenuType {
     LOGIN,
     SIGNUP,
     MAIN,
-    USERPROFILE
+    USERPROFILE,
+    RIGHTS
 
 }
