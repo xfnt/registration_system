@@ -21,6 +21,10 @@ public class UserService {
         return repository.getById(id);
     }
 
+    public boolean editUserWithoutRigth(User user){
+        return repository.updateWithoutRight(user);
+    }
+
     public boolean editUser(User user) {
         return repository.update(user);
     }

@@ -76,10 +76,18 @@ public class LoginMenu implements IMenu, ActionListener {
         if(e.getSource().equals(logIn)){
             if(authenticate()){
                 Message<Sendable> message = menuHolder.getUserService().getUserById(loginField.getText());
-                if(!message.getType().equals(MessageType.ERROR)) {
-                    User user = (User) message.getBody().get(0);
-                    menuHolder.setUser(user);
+                if(message.getType().equals(MessageType.ERROR)) {
+                    JOptionPane.showMessageDialog(panel,
+                            "Не удалось получить данные о пользователе...");
+                    return;
                 }
+                User user = (User) message.getBody().get(0);
+                if(user.isDeleted()) {
+                    JOptionPane.showMessageDialog(panel,
+                            "Пользователь помечен на удаление, дальнейшая работа невозможна, обратитесь к администратору.");
+                    return;
+                }
+                menuHolder.setUser(user);
             }else {
                 return;
             }

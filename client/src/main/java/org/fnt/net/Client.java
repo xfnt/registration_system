@@ -16,6 +16,7 @@ public class Client {
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private JFrame ui;
 
     public void start(JFrame ui) {
         log.info("Client started...");
@@ -24,67 +25,56 @@ public class Client {
             socket = new Socket(ApplicationConfiguration.serverHost, ApplicationConfiguration.serverPort);
             log.info("Accepted : " + socket);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(ui, "Server is unavailable...");
+            JOptionPane.showMessageDialog(ui, "Сервер недоступен, попробуйте еще раз...");
             log.info("Server is unavailable...");
             System.exit(0);
         }
     }
 
     public Message read() {
-        if(input == null) {
-            try {
-                input = new ObjectInputStream(socket.getInputStream());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
         Message message = null;
         try {
+            if(input == null) {
+                input = new ObjectInputStream(socket.getInputStream());
+            }
             message = (Message) input.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+
+        }catch (IOException e) {
+            disconnect();
+        }catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return message;
     }
 
     public void write(Message message) {
-        if(output == null) {
-            try {
+
+        try{
+            if(output == null){
                 output = new ObjectOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
-        }
-        try {
             output.writeObject(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             output.flush();
             output.reset();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            disconnect();
         }
     }
 
     public void closeConnection() {
         try {
-            input.close();
+            if(socket != null) {
+                socket.close();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try {
-            output.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    }
+
+    private void disconnect() {
+        closeConnection();
+        JOptionPane.showMessageDialog(ui, "Соединение потеряно, перезапустите программу или обратитесь к администратору...");
+        log.info("Server is unavailable...");
+        System.exit(0);
     }
 }
