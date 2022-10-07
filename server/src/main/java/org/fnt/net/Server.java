@@ -1,6 +1,9 @@
 package org.fnt.net;
 
 import org.fnt.handler.ClientHandler;
+import org.fnt.model.entity.Sendable;
+import org.fnt.model.message.Message;
+import org.fnt.model.message.MessageType;
 import org.fnt.util.ApplicationConfiguration;
 
 import java.io.IOException;

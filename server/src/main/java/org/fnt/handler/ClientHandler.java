@@ -87,7 +87,7 @@ public class ClientHandler {
         isConnected = false;
     }
 
-    private void closeConnection() {
+    public void closeConnection() {
         log.info("Client : " + socket + " disconnected...");
         server.unsubscribe(this);
         try {

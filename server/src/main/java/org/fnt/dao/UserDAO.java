@@ -151,6 +151,31 @@ public class UserDAO implements DAO<User> {
         return true;
     }
 
+    public boolean updateWithoutRight(User object) {
+        connection = connectionFactory.getConnection();
+        String sql = """
+                UPDATE users
+                SET first_name=?,last_name=?,middle_name=?,birth_date=?,phone_number=?
+                WHERE id=?;
+                """;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, object.getFirstName());
+            preparedStatement.setString(2, object.getLastName());
+            preparedStatement.setString(3, object.getMiddleName());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(object.getBirthDate().atStartOfDay()));
+            preparedStatement.setString(5, object.getPhoneNumber());
+            preparedStatement.setString(6, object.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            close();
+            return  false;
+        }
+        close();
+        return true;
+    }
+
     @Override
     public boolean update(User object) {
         connection = connectionFactory.getConnection();
