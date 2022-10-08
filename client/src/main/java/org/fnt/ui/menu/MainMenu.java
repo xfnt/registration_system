@@ -77,7 +77,7 @@ public class MainMenu implements IMenu, MouseListener {
                 case "TIMESHEET":
                     label.setForeground(Color.BLACK);
                     label.setBorder(null);
-//                    menuHolder.getMenu(MenuType.TIMESHEET).show();
+                    menuHolder.getMenu(MenuType.TIMESHEET).show();
                     break;
                 case "RIGHTS":
                     label.setForeground(Color.BLACK);
