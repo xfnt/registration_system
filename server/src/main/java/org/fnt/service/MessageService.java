@@ -2,7 +2,9 @@ package org.fnt.service;
 
 import org.fnt.handler.ClientHandler;
 import org.fnt.model.entity.AuthenticationInformation;
+import org.fnt.model.entity.Timetable;
 import org.fnt.model.entity.user.User;
+import org.fnt.model.entity.user.UserType;
 import org.fnt.model.message.Message;
 import org.fnt.model.message.MessageType;
 
@@ -14,10 +16,12 @@ public class MessageService {
     private ClientHandler clientHandler;
     private AuthenticationService authenticationService;
     private UserService userService;
+    private TimetableService timetableService;
     public MessageService(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         authenticationService = new AuthenticationService();
         userService = new UserService();
+        timetableService = new TimetableService();
     }
 
     public void readRequest(Message message) {
@@ -86,6 +90,26 @@ public class MessageService {
                 clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-UPDATE_USER_LIST_SUCCESS", null));
             }else {
                 clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-UPDATE_USER_LIST_FAILED", null));
+            }
+        }
+
+        // Добавление рабочего времени
+        if(message.getText().equals("-ADD_TIME")) {
+            List<Timetable> existsTimetable = timetableService.addTime(message.getBody());
+            if(existsTimetable != null) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-ADD_TIME_SUCCESS", existsTimetable));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-ADD_TIME_FAILED", null));
+            }
+        }
+
+        // Получение рассписания для сотрудника
+        if(message.getText().equals("-GET_ALL_TIME")) {
+            List<Timetable> timeList = timetableService.getAllTime(message.getUserId(), UserType.EMPLOYEE);
+            if(timeList != null) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-GET_ALL_TIME_SUCCESS", timeList));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-ADD_ALL_TIME_FAILED", null));
             }
         }
 

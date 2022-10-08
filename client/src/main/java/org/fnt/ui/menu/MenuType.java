@@ -5,6 +5,9 @@ public enum MenuType {
     SIGNUP,
     MAIN,
     USERPROFILE,
+    TIMESHEET,
+    TIMESHEET_PLAIN,
+    TIMESHEET_VIEW,
     RIGHTS
 
 }
