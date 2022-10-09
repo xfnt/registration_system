@@ -90,6 +90,7 @@ public class AppointmentPlainMenu implements IMenu, ActionListener {
                     timetable = t;
                 }
             }
+            if(timetable==null) return;
             timetable.setUserId(menuHolder.getUser().getId());
             Message<Sendable> message = menuHolder.getTimetableService().appoint(menuHolder.getUser().getId(), timetable);
             if(message.getType().equals(MessageType.ERROR)) {
