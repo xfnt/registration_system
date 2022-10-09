@@ -19,7 +19,6 @@ CREATE TABLE usertype (
      CONSTRAINT usertype_pk PRIMARY KEY (type)
 );
 
-INSERT INTO usertype(type) VALUES ('ADMINISTRATOR');
 INSERT INTO usertype(type) VALUES ('EMPLOYEE');
 INSERT INTO usertype(type) VALUES ('USER');
 
@@ -33,13 +32,14 @@ CREATE TABLE users (
     phone_number varchar NOT NULL,
     user_type varchar NOT NULL,
     deleted bool NOT NULL,
+    admin bool NOT NULL,
     CONSTRAINT users_pk PRIMARY KEY (id),
     CONSTRAINT "FK_ID" FOREIGN KEY (id) REFERENCES auth(login),
     CONSTRAINT "FK_TYPE" FOREIGN KEY (user_type) REFERENCES reg_sys.usertype("type")
 );
 -- Добовляем Администратора
 INSERT INTO users(id, first_name, last_name, middle_name, birth_date, phone_number, user_type, deleted)
-    VALUES ('ADMIN', 'ADMIN', 'ADMIN', 'ADMIN', '01-01-1990', '+70000000000', 'ADMIN', false);
+    VALUES ('ADMIN', 'ADMIN', 'ADMIN', 'ADMIN', '01-01-1990', '+70000000000', 'EMPLOYEE', false, true);
 
 -- Таблица для учета записей
 CREATE TABLE timetable (

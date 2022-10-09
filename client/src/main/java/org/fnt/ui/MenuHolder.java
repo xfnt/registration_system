@@ -4,6 +4,9 @@ import org.fnt.model.entity.user.User;
 import org.fnt.net.Client;
 import org.fnt.service.*;
 import org.fnt.ui.menu.*;
+import org.fnt.ui.menu.appointment.AppointmentMenu;
+import org.fnt.ui.menu.appointment.AppointmentPlainMenu;
+import org.fnt.ui.menu.appointment.AppointmentViewMenu;
 import org.fnt.ui.menu.authentication.LoginMenu;
 import org.fnt.ui.menu.authentication.SignupMenu;
 import org.fnt.ui.menu.rights.RightsMenu;
@@ -40,18 +43,21 @@ public class MenuHolder {
         SignupMenu signupMenu = new SignupMenu(this, panel, layout);
         MainMenu mainMenu = new MainMenu(this, panel, layout);
         ProfileMenu profileMenu = new ProfileMenu(this, panel, layout);
-
+        AppointmentMenu appointmentMenu = new AppointmentMenu(this, panel, layout);
+        AppointmentViewMenu appointmentViewMenu = new AppointmentViewMenu(this, panel, layout);
+        AppointmentPlainMenu appointmentPlainMenu = new AppointmentPlainMenu(this, panel, layout);
         TimesheetMenu timesheetMenu = new TimesheetMenu(this, panel, layout);
         TimesheetPlainMenu timesheetPlainMenu = new TimesheetPlainMenu(this, panel, layout);
         TimesheetViewMenu timesheetViewMenu = new TimesheetViewMenu(this, panel, layout);
-
         RightsMenu rightsMenu = new RightsMenu(this, panel, layout);
 
         menuList.add(loginMenu);
         menuList.add(signupMenu);
         menuList.add(mainMenu);
         menuList.add(profileMenu);
-
+        menuList.add(appointmentMenu);
+        menuList.add(appointmentViewMenu);
+        menuList.add(appointmentPlainMenu);
         menuList.add(timesheetMenu);
         menuList.add(timesheetPlainMenu);
         menuList.add(timesheetViewMenu);

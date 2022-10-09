@@ -91,6 +91,7 @@ public class LoginMenu implements IMenu, ActionListener {
             }else {
                 return;
             }
+            clearFields();
             menuHolder.getMenu(MenuType.MAIN).show();
         }
 
@@ -118,6 +119,11 @@ public class LoginMenu implements IMenu, ActionListener {
             return false;
         }
         return true;
+    }
+
+    private void clearFields() {
+        loginField.setText("");
+        passwordField.setText("");
     }
 
     @Override

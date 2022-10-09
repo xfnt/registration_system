@@ -1,4 +1,4 @@
-package org.fnt.ui.menu.timesheet;
+package org.fnt.ui.menu.appointment;
 
 import org.fnt.model.entity.Sendable;
 import org.fnt.model.entity.Timetable;
@@ -15,9 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class TimesheetViewMenu implements IMenu, ActionListener {
+public class AppointmentViewMenu implements IMenu, ActionListener {
 
-    private MenuType type = MenuType.TIMESHEET_VIEW;
+    private MenuType type = MenuType.APPOINTMENT_VIEW;
     private MenuHolder menuHolder;
     private JPanel panel;
     private GroupLayout layout;
@@ -28,7 +28,9 @@ public class TimesheetViewMenu implements IMenu, ActionListener {
     private JScrollPane scrollPane;
     private JButton back;
 
-    public TimesheetViewMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
+
+
+    public AppointmentViewMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
 
         this.menuHolder = menuHolder;
         this.panel = panel;
@@ -39,7 +41,6 @@ public class TimesheetViewMenu implements IMenu, ActionListener {
 
         title = new JLabel("<html>РАСПИСАНИЕ<html>", JLabel.CENTER);
         title.setFont(titleFont);
-
 
         timetableTableModel = new TimetableTableModel();
         table = new JTable(timetableTableModel);
@@ -59,14 +60,14 @@ public class TimesheetViewMenu implements IMenu, ActionListener {
             JButton button = (JButton) e.getSource();
             switch (button.getName()) {
                 case "BACK":
-                    menuHolder.getMenu(MenuType.TIMESHEET).show();
+                    menuHolder.getMenu(MenuType.APPOINTMENT).show();
                     break;
             }
         }
     }
 
     public void update() {
-        Message<Sendable> message = menuHolder.getTimetableService().getAllTime(menuHolder.getUser().getId());
+        Message<Sendable> message = menuHolder.getTimetableService().getUserTimetable(menuHolder.getUser().getId());
         if(message.getType().equals(MessageType.ERROR)) {
             JOptionPane.showMessageDialog(panel, "Не удалось получить данные...");
             timetableTableModel.setData(new ArrayList<>());

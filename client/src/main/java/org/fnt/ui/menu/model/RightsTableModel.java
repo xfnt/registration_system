@@ -1,4 +1,4 @@
-package org.fnt.ui.menu.rights;
+package org.fnt.ui.menu.model;
 
 import org.fnt.model.entity.user.User;
 import org.fnt.model.entity.user.UserType;
@@ -10,7 +10,7 @@ import java.util.List;
 public class RightsTableModel extends AbstractTableModel {
 
     private String[] columnTitle = {"ID", "Имя", "Отчество", "Фамилия",
-            "Дата рождения", "Номер телефона", "Тип пользователя", "Удален"};
+            "Дата рождения", "Номер телефона", "Тип пользователя", "Удален", "АдминистраторЫ"};
     private List<User> data;
     private List<User> changedUserList;
 
@@ -45,6 +45,7 @@ public class RightsTableModel extends AbstractTableModel {
         if(columnIndex==5) result = (Object) user.getPhoneNumber();
         if(columnIndex==6) result = (Object) user.getType();
         if(columnIndex==7) result = (Object) user.isDeleted();
+        if(columnIndex==8) result = (Object) user.isAdmin();
         return result;
     }
 
@@ -59,7 +60,7 @@ public class RightsTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex == 6 || columnIndex == 7) {
+        if(columnIndex == 6 || columnIndex == 7 || columnIndex == 8) {
             return true;
         }
         return false;
@@ -74,6 +75,10 @@ public class RightsTableModel extends AbstractTableModel {
         }
         if(columnIndex == 7){
             user.setDeleted((boolean) value);
+            updateTable();
+        }
+        if(columnIndex == 8){
+            user.setAdmin((boolean) value);
             updateTable();
         }
         changedUserList.add(user);

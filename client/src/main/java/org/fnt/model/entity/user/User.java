@@ -14,6 +14,7 @@ public class User implements Sendable {
     private String phoneNumber;
     private UserType type;
     private boolean deleted;
+    private boolean admin;
 
     public User() {
     }
@@ -25,7 +26,8 @@ public class User implements Sendable {
                 LocalDate birthDate,
                 String phoneNumber,
                 UserType type,
-                boolean deleted) {
+                boolean deleted,
+                boolean admin) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,6 +36,7 @@ public class User implements Sendable {
         this.phoneNumber = phoneNumber;
         this.type = type;
         this.deleted = deleted;
+        this.admin = admin;
     }
 
     public String getId() {
@@ -100,6 +103,14 @@ public class User implements Sendable {
         this.deleted = deleted;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,25 +119,27 @@ public class User implements Sendable {
         User user = (User) o;
 
         if (deleted != user.deleted) return false;
-        if (!id.equals(user.id)) return false;
-        if (!firstName.equals(user.firstName)) return false;
+        if (admin != user.admin) return false;
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (middleName != null ? !middleName.equals(user.middleName) : user.middleName != null) return false;
-        if (!birthDate.equals(user.birthDate)) return false;
-        if (!phoneNumber.equals(user.phoneNumber)) return false;
+        if (birthDate != null ? !birthDate.equals(user.birthDate) : user.birthDate != null) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
         return type == user.type;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + firstName.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
-        result = 31 * result + birthDate.hashCode();
-        result = 31 * result + phoneNumber.hashCode();
-        result = 31 * result + type.hashCode();
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (deleted ? 1 : 0);
+        result = 31 * result + (admin ? 1 : 0);
         return result;
     }
 
@@ -141,6 +154,7 @@ public class User implements Sendable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", type=" + type +
                 ", deleted=" + deleted +
+                ", admin=" + admin +
                 '}';
     }
 }

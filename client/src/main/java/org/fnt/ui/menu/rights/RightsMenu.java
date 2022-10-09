@@ -8,6 +8,7 @@ import org.fnt.model.message.MessageType;
 import org.fnt.ui.MenuHolder;
 import org.fnt.ui.menu.IMenu;
 import org.fnt.ui.menu.MenuType;
+import org.fnt.ui.menu.model.RightsTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
@@ -47,7 +48,6 @@ public class RightsMenu implements IMenu, ActionListener {
 
         TableColumn purchasedColumn = table.getColumnModel().getColumn(6);
         JComboBox<UserType> purchasedClasses = new JComboBox<>();
-        purchasedClasses.addItem(UserType.ADMINISTRATOR);
         purchasedClasses.addItem(UserType.EMPLOYEE);
         purchasedClasses.addItem(UserType.USER);
         purchasedColumn.setCellEditor(new DefaultCellEditor(purchasedClasses));

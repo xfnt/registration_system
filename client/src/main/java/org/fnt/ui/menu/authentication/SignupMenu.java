@@ -123,6 +123,7 @@ public class SignupMenu implements IMenu, ActionListener {
                 DateFormatUtils.parseToLocalDate(birthDateField.getText()),
                 phoneNumberField.getText(),
                 UserType.USER,
+                false,
                 false
         );
         message = menuHolder.getUserService().createUser(user);
