@@ -137,13 +137,6 @@ public class MainMenu implements IMenu, MouseListener {
     public void show() {
         panel.removeAll();
 
-        if(menuHolder.getUser().getType().equals(UserType.EMPLOYEE)) {
-            allUserListMenu.setText("");
-        } else if(menuHolder.getUser().getType().equals(UserType.USER)) {
-            allUserListMenu.setText("");
-            timesheetMenu.setText("");
-        }
-
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
@@ -173,5 +166,12 @@ public class MainMenu implements IMenu, MouseListener {
                         .addComponent(login)
                         .addComponent(exit)
         );
+
+        if(menuHolder.getUser().getType().equals(UserType.EMPLOYEE) && !menuHolder.getUser().isAdmin()) {
+            layout.replace(allUserListMenu, new JLabel());
+        } else if(menuHolder.getUser().getType().equals(UserType.USER)) {
+            layout.replace(timesheetMenu, new JLabel());
+            layout.replace(allUserListMenu, new JLabel());
+        }
     }
 }

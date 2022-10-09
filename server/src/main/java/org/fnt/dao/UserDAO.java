@@ -41,6 +41,7 @@ public class UserDAO implements DAO<User> {
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
+                user.setAdmin(resultSet.getBoolean("admin"));
             }
 
         } catch (SQLException e) {
@@ -77,6 +78,7 @@ public class UserDAO implements DAO<User> {
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
+                user.setAdmin(resultSet.getBoolean("admin"));
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -113,6 +115,7 @@ public class UserDAO implements DAO<User> {
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
+                user.setAdmin(resultSet.getBoolean("admin"));
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -128,8 +131,8 @@ public class UserDAO implements DAO<User> {
     public boolean insert(User object) {
         connection = connectionFactory.getConnection();
         String sql = """
-                INSERT INTO users (id,first_name,last_name,middle_name,birth_date,phone_number,user_type,deleted)
-                    VALUES (?,?,?,?,?,?,?,?);
+                INSERT INTO users (id,first_name,last_name,middle_name,birth_date,phone_number,user_type,deleted,admin)
+                    VALUES (?,?,?,?,?,?,?,?,?);
                 """;
         PreparedStatement preparedStatement = null;
         try {
@@ -142,6 +145,7 @@ public class UserDAO implements DAO<User> {
             preparedStatement.setString(6, object.getPhoneNumber());
             preparedStatement.setString(7, object.getType().toString());
             preparedStatement.setBoolean(8, object.isDeleted());
+            preparedStatement.setBoolean(9, object.isAdmin());
             preparedStatement.execute();
         } catch (SQLException e) {
             close();
@@ -181,7 +185,7 @@ public class UserDAO implements DAO<User> {
         connection = connectionFactory.getConnection();
         String sql = """
                 UPDATE users
-                SET first_name=?,last_name=?,middle_name=?,birth_date=?,phone_number=?,user_type=?,deleted=?
+                SET first_name=?,last_name=?,middle_name=?,birth_date=?,phone_number=?,user_type=?,deleted=?,admin=?
                 WHERE id=?;
                 """;
         PreparedStatement preparedStatement = null;
@@ -194,7 +198,8 @@ public class UserDAO implements DAO<User> {
             preparedStatement.setString(5, object.getPhoneNumber());
             preparedStatement.setString(6, object.getType().toString());
             preparedStatement.setBoolean(7, object.isDeleted());
-            preparedStatement.setString(8, object.getId());
+            preparedStatement.setBoolean(8, object.isAdmin());
+            preparedStatement.setString(9, object.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             close();

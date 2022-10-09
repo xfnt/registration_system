@@ -48,7 +48,6 @@ public class RightsMenu implements IMenu, ActionListener {
 
         TableColumn purchasedColumn = table.getColumnModel().getColumn(6);
         JComboBox<UserType> purchasedClasses = new JComboBox<>();
-        purchasedClasses.addItem(UserType.ADMINISTRATOR);
         purchasedClasses.addItem(UserType.EMPLOYEE);
         purchasedClasses.addItem(UserType.USER);
         purchasedColumn.setCellEditor(new DefaultCellEditor(purchasedClasses));
