@@ -8,6 +8,7 @@ import org.fnt.model.message.MessageType;
 import org.fnt.ui.MenuHolder;
 import org.fnt.ui.menu.IMenu;
 import org.fnt.ui.menu.MenuType;
+import org.fnt.ui.menu.model.RightsTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;

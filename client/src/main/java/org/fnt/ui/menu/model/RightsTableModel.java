@@ -1,4 +1,4 @@
-package org.fnt.ui.menu.rights;
+package org.fnt.ui.menu.model;
 
 import org.fnt.model.entity.user.User;
 import org.fnt.model.entity.user.UserType;

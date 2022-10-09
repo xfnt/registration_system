@@ -113,6 +113,45 @@ public class MessageService {
             }
         }
 
+        // Получение рассписания для пользователя
+        if(message.getText().equals("-GET_USER_TIMETABLE")) {
+            List<Timetable> timeList = timetableService.getAllTime(message.getUserId(), UserType.USER);
+            if(timeList != null) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-GET_ALL_TIME_SUCCESS", timeList));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-ADD_ALL_TIME_FAILED", null));
+            }
+        }
+
+        // Получение списка всех сотрудников
+        if(message.getText().equals("-GET_EMPPLOYEES")) {
+            List<User> userList = userService.getAllByType(UserType.EMPLOYEE);
+            if(userList != null) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-GET_EMPLOYEES_SUCCESS", userList));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-GET_EMPLOYEES_FAILED", null));
+            }
+        }
+
+        // Получение свободного времени для записи
+        if(message.getText().equals("-GET_FREE_TIME")) {
+            List<Timetable> freeTimeList = timetableService.getFreeTime(message.getUserId());
+            if(freeTimeList != null) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-GET_FREE_TIME_SUCCESS", freeTimeList));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-ADD_TIME_FAILED", null));
+            }
+        }
+
+        // Запись пользователя к сотруднику
+        if(message.getText().equals("-APPOINTMENT")) {
+            if(timetableService.appoint((Timetable) message.getBody().get(0))) {
+                clientHandler.write(new Message(MessageType.RESPONSE, message.getUserId(),"-APPOINT_SUCCESS", null));
+            }else {
+                clientHandler.write(new Message(MessageType.ERROR, message.getUserId(),"-APPOINT_FAILED", null));
+            }
+        }
+
         // Корректный разрыв соединения с пользователем
         if(message.getText().equals("-EXIT")) {
             clientHandler.changeStateToFalse();

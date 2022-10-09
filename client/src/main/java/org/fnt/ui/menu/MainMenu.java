@@ -16,7 +16,7 @@ public class MainMenu implements IMenu, MouseListener {
     private MenuHolder menuHolder;
     private JPanel panel;
     private JLabel title, profileMenu, appointmentMenu, timesheetMenu, allUserListMenu;
-    private JLabel exit;
+    private JLabel exit, login;
 
 
     public MainMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
@@ -48,6 +48,11 @@ public class MainMenu implements IMenu, MouseListener {
         allUserListMenu.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
         allUserListMenu.addMouseListener(this);
 
+        login = new JLabel("<html>ЗАЙТИ ПОД ДРУГИМ ПОЛЬЗОВАТЕЛЕМ</html>", JLabel.CENTER);
+        login.setName("LOGIN");
+        login.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
+        login.addMouseListener(this);
+
         exit = new JLabel("<html>ВЫХОД</html>", JLabel.CENTER);
         exit.setName("EXIT");
         exit.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
@@ -72,7 +77,7 @@ public class MainMenu implements IMenu, MouseListener {
                 case "APPOINTMENT":
                     label.setForeground(Color.BLACK);
                     label.setBorder(null);
-//                    menuHolder.getMenu(MenuType.APPOINTMENT).show();
+                    menuHolder.getMenu(MenuType.APPOINTMENT).show();
                     break;
                 case "TIMESHEET":
                     label.setForeground(Color.BLACK);
@@ -83,6 +88,12 @@ public class MainMenu implements IMenu, MouseListener {
                     label.setForeground(Color.BLACK);
                     label.setBorder(null);
                     menuHolder.getMenu(MenuType.RIGHTS).show();
+                    break;
+                case "LOGIN":
+                    label.setForeground(Color.BLACK);
+                    label.setBorder(null);
+                    menuHolder.setUser(null);
+                    menuHolder.getMenu(MenuType.LOGIN).show();
                     break;
                 case "EXIT":
                     label.setForeground(Color.BLACK);
@@ -145,6 +156,7 @@ public class MainMenu implements IMenu, MouseListener {
                                         .addComponent(appointmentMenu)
                                         .addComponent(timesheetMenu)
                                         .addComponent(allUserListMenu)
+                                        .addComponent(login)
                                         .addComponent(exit)
                         )
         );
@@ -158,6 +170,7 @@ public class MainMenu implements IMenu, MouseListener {
                                         .addComponent(timesheetMenu)
                                         .addComponent(allUserListMenu)
                         )
+                        .addComponent(login)
                         .addComponent(exit)
         );
     }
