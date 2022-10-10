@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TimetableTableModel extends AbstractTableModel {
 
-    private String[] columnTitle = {"id", "id сотрудника", "id пользователя", "дата приема"};
+    private String[] columnTitle = {"ФИО СОТРУДНИКА", "ФИО КЛИЕНТА", "ДАТА И ВРЕМЯ ПРИЕМА"};
     private List<Timetable> data;
 
     public TimetableTableModel() {

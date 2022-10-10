@@ -7,9 +7,11 @@ import org.fnt.model.message.MessageType;
 import org.fnt.ui.MenuHolder;
 import org.fnt.ui.menu.IMenu;
 import org.fnt.ui.menu.MenuType;
+import org.fnt.ui.menu.model.RightsTableModel;
 import org.fnt.ui.menu.model.TimetableTableModel;
 
 import javax.swing.*;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,6 +75,9 @@ public class TimesheetViewMenu implements IMenu, ActionListener {
             return;
         }
         timetableTableModel.setData(message.getBody().stream().map(t->(Timetable) t).toList());
+        RowSorter<TimetableTableModel> sorter = new TableRowSorter<TimetableTableModel>(
+                timetableTableModel);
+        table.setRowSorter(sorter);
     }
 
     @Override

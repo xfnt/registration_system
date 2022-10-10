@@ -96,6 +96,7 @@ public class LoginMenu implements IMenu, ActionListener {
         }
 
         if(e.getSource().equals(signUp)) {
+            clearFields();
             menuHolder.getMenu(MenuType.SIGNUP).show();
         }
     }

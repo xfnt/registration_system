@@ -12,6 +12,7 @@ import org.fnt.ui.menu.model.RightsTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -101,6 +102,9 @@ public class RightsMenu implements IMenu, ActionListener {
         panel.removeAll();
 
         rightsTableModel.setData(readUserList());
+        RowSorter<RightsTableModel> sorter = new TableRowSorter<RightsTableModel>(
+                rightsTableModel);
+        table.setRowSorter(sorter);
 
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
