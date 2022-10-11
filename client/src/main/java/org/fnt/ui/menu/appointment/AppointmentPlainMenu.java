@@ -104,7 +104,7 @@ public class AppointmentPlainMenu implements IMenu, ActionListener {
     }
 
     public void update() {
-        Message<Sendable> message = menuHolder.getUserService().getEmployees();
+        Message<Sendable> message = menuHolder.getUserService().getEmployees(menuHolder.getUser().getId());
         if(message.getType().equals(MessageType.ERROR)) {
             JOptionPane.showMessageDialog(panel, "Не удалось получить данные...");
             return;

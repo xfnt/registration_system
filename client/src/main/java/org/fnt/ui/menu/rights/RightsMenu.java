@@ -71,7 +71,11 @@ public class RightsMenu implements IMenu, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(accept)) {
             if(!rightsTableModel.getChangedUserList().isEmpty()) {
-                Message<Sendable> message = menuHolder.getUserService().updateAll(rightsTableModel.getChangedUserList());
+                Message<Sendable> message = menuHolder.getUserService()
+                        .updateAll(
+                                menuHolder.getUser().getId(),
+                                rightsTableModel.getChangedUserList()
+                        );
                 if(message.getType().equals(MessageType.ERROR)) {
                     JOptionPane.showMessageDialog(panel, "Не удалось обновить некоторых пользователей...");
                 }else {
@@ -89,7 +93,7 @@ public class RightsMenu implements IMenu, ActionListener {
     }
 
     private List<User> readUserList() {
-        Message<Sendable> message = menuHolder.getUserService().getAll();
+        Message<Sendable> message = menuHolder.getUserService().getAll(menuHolder.getUser().getId());
         if(message.getType().equals(MessageType.ERROR)) {
             JOptionPane.showMessageDialog(panel, "Неудалось выгрузить список пользователей, обратитесь к разработчику...");
             menuHolder.getMenu(MenuType.MAIN).show();

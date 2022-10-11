@@ -38,7 +38,7 @@ public class UserService {
         return message;
     }
 
-    public Message<Sendable> editUser(User user) {
+    public Message<Sendable> editUser(String currentUser, User user) {
         Message message = null;
         messageService.write(
                 new Message(
@@ -50,7 +50,7 @@ public class UserService {
         return message;
     }
 
-    public Message<Sendable> getAll() {
+    public Message<Sendable> getAll(String currentUser) {
         Message message = null;
         messageService.write(
                 new Message(
@@ -62,24 +62,24 @@ public class UserService {
         return message;
     }
 
-    public Message<Sendable> getEmployees() {
+    public Message<Sendable> getEmployees(String currentUser) {
         Message message = null;
         messageService.write(
                 new Message(
                         MessageType.REQUEST,
-                        "",
+                        currentUser,
                         "-GET_EMPPLOYEES",
                         null));
         message = messageService.read();
         return message;
     }
 
-    public Message<Sendable> updateAll(List<User> changedUserList) {
+    public Message<Sendable> updateAll(String currentUser, List<User> changedUserList) {
         Message message = null;
         messageService.write(
                 new Message(
                         MessageType.REQUEST,
-                        "",
+                        currentUser,
                         "-UPDATE_USER_LIST",
                         changedUserList));
         message = messageService.read();

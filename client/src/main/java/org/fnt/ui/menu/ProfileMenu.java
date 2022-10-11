@@ -160,7 +160,7 @@ public class ProfileMenu implements IMenu, ActionListener, MouseListener {
         menuHolder.getUser().setBirthDate(DateFormatUtils.parseToLocalDate(birthDateField.getText()));
         menuHolder.getUser().setPhoneNumber(phoneNumberField.getText());
 
-        Message<Sendable> message = menuHolder.getUserService().editUser(menuHolder.getUser());
+        Message<Sendable> message = menuHolder.getUserService().editUser(menuHolder.getUser().getId(),menuHolder.getUser());
         if(message.getType().equals(MessageType.ERROR)) {
             message = menuHolder.getUserService().getUserById(menuHolder.getUser().getId());
             if(!message.getType().equals(MessageType.ERROR)) {
