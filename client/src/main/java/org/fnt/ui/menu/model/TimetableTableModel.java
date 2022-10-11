@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TimetableTableModel extends AbstractTableModel {
 
-    private String[] columnTitle = {"id", "id сотрудника", "id пользователя", "дата приема"};
+    private String[] columnTitle = {"ФИО СОТРУДНИКА", "ФИО КЛИЕНТА", "ДАТА И ВРЕМЯ ПРИЕМА"};
     private List<Timetable> data;
 
     public TimetableTableModel() {
@@ -32,10 +32,9 @@ public class TimetableTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object result = null;
         Timetable timetable = data.get(rowIndex);
-        if(columnIndex==0) result = (Object) timetable.getId();
-        if(columnIndex==1) result = (Object) timetable.getEmployeeId();
-        if(columnIndex==2) result = (Object) timetable.getUserId();
-        if(columnIndex==3) result = (Object) DateFormatUtils.parseDateTimeToString(timetable.getTime());
+        if(columnIndex==0) result = (Object) timetable.getEmployeeId();
+        if(columnIndex==1) result = (Object) timetable.getUserId();
+        if(columnIndex==2) result = (Object) DateFormatUtils.parseDateTimeToString(timetable.getTime());
         return result;
     }
 
