@@ -32,10 +32,9 @@ public class TimetableTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object result = null;
         Timetable timetable = data.get(rowIndex);
-        if(columnIndex==0) result = (Object) timetable.getId();
-        if(columnIndex==1) result = (Object) timetable.getEmployeeId();
-        if(columnIndex==2) result = (Object) timetable.getUserId();
-        if(columnIndex==3) result = (Object) DateFormatUtils.parseDateTimeToString(timetable.getTime());
+        if(columnIndex==0) result = (Object) timetable.getEmployeeId();
+        if(columnIndex==1) result = (Object) timetable.getUserId();
+        if(columnIndex==2) result = (Object) DateFormatUtils.parseDateTimeToString(timetable.getTime());
         return result;
     }
 
