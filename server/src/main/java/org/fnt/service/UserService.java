@@ -1,5 +1,6 @@
 package org.fnt.service;
 
+import org.fnt.connection.ConnectionFactory;
 import org.fnt.model.entity.user.User;
 import org.fnt.model.entity.user.UserType;
 import org.fnt.repository.UserRepository;
@@ -9,8 +10,8 @@ import java.util.List;
 public class UserService {
     private UserRepository repository;
 
-    public UserService() {
-        repository = new UserRepository();
+    public UserService(ConnectionFactory connectionFactory) {
+        repository = new UserRepository(connectionFactory);
     }
 
     public boolean createUSer(User user) {

@@ -1,6 +1,7 @@
 package org.fnt.service;
 
 
+import org.fnt.connection.ConnectionFactory;
 import org.fnt.model.entity.Timetable;
 import org.fnt.model.entity.user.UserType;
 import org.fnt.repository.TimetableRepository;
@@ -11,8 +12,8 @@ import java.util.List;
 public class TimetableService {
     private TimetableRepository repository;
 
-    public TimetableService() {
-        repository = new TimetableRepository();
+    public TimetableService(ConnectionFactory connectionFactory) {
+        repository = new TimetableRepository(connectionFactory);
     }
 
     public List<Timetable> addTime(List<Timetable> timetableList) {
