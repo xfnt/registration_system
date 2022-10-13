@@ -1,9 +1,7 @@
 package org.fnt.net;
 
+import org.fnt.connection.ConnectionFactory;
 import org.fnt.handler.ClientHandler;
-import org.fnt.model.entity.Sendable;
-import org.fnt.model.message.Message;
-import org.fnt.model.message.MessageType;
 import org.fnt.util.ApplicationConfiguration;
 
 import java.io.IOException;
@@ -17,19 +15,23 @@ public class Server {
     private Logger log = Logger.getLogger(this.getClass().getName());
     private Socket client;
     private Set<ClientHandler> clientHandlers;
+    private ApplicationConfiguration configuration;
+    private ConnectionFactory connectionFactory;
 
-    public Server() {
+    public Server(ApplicationConfiguration configuration) {
+        this.configuration = configuration;
+        connectionFactory = new ConnectionFactory(configuration);
         clientHandlers = new HashSet<>();
     }
     public void start() {
         log.info("Server started...");
 
-        try (ServerSocket serverSocket = new ServerSocket(ApplicationConfiguration.serverPort)) {
+        try (ServerSocket serverSocket = new ServerSocket(configuration.getServerPort())) {
             while(true) {
                 log.info("Server waiting a client...");
                 client = serverSocket.accept();
                 log.info("Client accepted : " + client);
-                new ClientHandler(client, this);
+                new ClientHandler(client, this, connectionFactory);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

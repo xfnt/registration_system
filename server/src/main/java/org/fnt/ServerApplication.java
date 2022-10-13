@@ -6,8 +6,8 @@ import org.fnt.util.ApplicationConfiguration;
 public class ServerApplication {
 
     public static void main(String[] args) {
-        ApplicationConfiguration.propertyInitialization();
-        Server server = new Server();
+        ApplicationConfiguration configuration = new ApplicationConfiguration().propertyInitialization();
+        Server server = new Server(configuration);
         server.start();
     }
 }

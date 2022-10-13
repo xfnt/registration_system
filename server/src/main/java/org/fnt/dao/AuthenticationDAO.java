@@ -14,8 +14,8 @@ public class AuthenticationDAO implements DAO<AuthenticationInformation> {
     private ConnectionFactory connectionFactory;
     private Connection connection;
 
-    public AuthenticationDAO() {
-        this.connectionFactory = new ConnectionFactory();
+    public AuthenticationDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
     @Override

@@ -14,8 +14,8 @@ public class TimetableDAO implements DAO<Timetable> {
     private ConnectionFactory connectionFactory;
     private Connection connection;
 
-    public TimetableDAO() {
-        this.connectionFactory = new ConnectionFactory();
+    public TimetableDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
 

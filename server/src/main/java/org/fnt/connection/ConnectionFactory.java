@@ -6,15 +6,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public final class ConnectionFactory {
+public class ConnectionFactory {
 
-    public static Connection getConnection() {
+    private ApplicationConfiguration ApplicationConfiguration;
+
+    public ConnectionFactory(ApplicationConfiguration ApplicationConfiguration) {
+        this.ApplicationConfiguration = ApplicationConfiguration;
+    }
+
+    public Connection getConnection() {
 
         try {
             return DriverManager.getConnection(
-                    ApplicationConfiguration.databaseURL,
-                    ApplicationConfiguration.databaseLogin,
-                    ApplicationConfiguration.databasePassword);
+                    ApplicationConfiguration.getDatabaseURL(),
+                    ApplicationConfiguration.getDatabaseLogin(),
+                    ApplicationConfiguration.getDatabasePassword());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

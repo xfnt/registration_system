@@ -1,5 +1,6 @@
 package org.fnt.handler;
 
+import org.fnt.connection.ConnectionFactory;
 import org.fnt.model.message.Message;
 import org.fnt.net.Server;
 import org.fnt.service.MessageService;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 public class ClientHandler {
 
     private Logger log = Logger.getLogger(this.getClass().getName());
+    private String handlerId;
 
     private Server server;
     private Socket socket;
@@ -23,10 +25,10 @@ public class ClientHandler {
 
     private boolean isConnected = true;
 
-    public ClientHandler(Socket socket, Server server) {
+    public ClientHandler(Socket socket, Server server, ConnectionFactory connectionFactory) {
         this.socket = socket;
         this.server = server;
-        requestService = new MessageService(this);
+        requestService = new MessageService(this, connectionFactory);
         start();
     }
 
@@ -79,12 +81,17 @@ public class ClientHandler {
         }
     }
 
-    public void auth() {
+    public void auth(String userId) {
+        handlerId = "Server ID: " + userId;
         server.subscribe(this);
     }
 
     public void changeStateToFalse() {
         isConnected = false;
+    }
+
+    public String getHandlerId() {
+        return handlerId;
     }
 
     public void closeConnection() {
