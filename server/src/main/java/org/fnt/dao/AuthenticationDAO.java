@@ -8,14 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class AuthenticationDAO implements DAO<AuthenticationInformation> {
-
     private ConnectionFactory connectionFactory;
     private Connection connection;
 
-    public AuthenticationDAO() {
-        this.connectionFactory = new ConnectionFactory();
+    public AuthenticationDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
     @Override

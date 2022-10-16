@@ -2,20 +2,31 @@ package org.fnt.ui.menu.appointment;
 
 import org.fnt.model.entity.Sendable;
 import org.fnt.model.entity.Timetable;
+import org.fnt.model.entity.user.User;
 import org.fnt.model.message.Message;
 import org.fnt.model.message.MessageType;
 import org.fnt.ui.MenuHolder;
 import org.fnt.ui.menu.IMenu;
 import org.fnt.ui.menu.MenuType;
+import org.fnt.ui.menu.PopupMenu;
 import org.fnt.ui.menu.model.TimetableTableModel;
 
 import javax.swing.*;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
-public class AppointmentViewMenu implements IMenu, ActionListener {
+public class AppointmentViewMenu implements IMenu, ActionListener, MouseListener {
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     private MenuType type = MenuType.APPOINTMENT_VIEW;
     private MenuHolder menuHolder;
@@ -27,14 +38,18 @@ public class AppointmentViewMenu implements IMenu, ActionListener {
     private TimetableTableModel timetableTableModel;
     private JScrollPane scrollPane;
     private JButton back;
+    private Set<User> userSet;
+
+    private PopupMenu popupMenu;
 
 
 
     public AppointmentViewMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
-
         this.menuHolder = menuHolder;
         this.panel = panel;
         this.layout = layout;
+
+        popupMenu = new PopupMenu();
 
         Font titleFont = new Font(Font.SERIF, Font.BOLD, 18);
         Font itemFont = new Font(Font.SERIF, Font.PLAIN, 14);
@@ -47,6 +62,7 @@ public class AppointmentViewMenu implements IMenu, ActionListener {
         table.setDragEnabled(false);
         table.setFont(itemFont);
         table.getTableHeader().setReorderingAllowed(false);
+        table.addMouseListener(this);
         scrollPane = new JScrollPane(table);
 
         back = new JButton("НАЗАД");
@@ -67,13 +83,68 @@ public class AppointmentViewMenu implements IMenu, ActionListener {
     }
 
     public void update() {
+        userSet = new HashSet<>();
         Message<Sendable> message = menuHolder.getTimetableService().getUserTimetable(menuHolder.getUser().getId());
         if(message.getType().equals(MessageType.ERROR)) {
             JOptionPane.showMessageDialog(panel, "Не удалось получить данные...");
             timetableTableModel.setData(new ArrayList<>());
             return;
         }
-        timetableTableModel.setData(message.getBody().stream().map(t->(Timetable) t).toList());
+
+        List<Timetable> timetableList = message.getBody().stream().map(t->(Timetable)t).toList();
+        timetableList.stream().forEach(item->{
+            item.setUserId(menuHolder.getUser().getFirstName() +
+                    " " +
+                    menuHolder.getUser().getMiddleName() + " " +
+                    menuHolder.getUser().getLastName());
+            Message<Sendable> msg = menuHolder.getUserService().getUserById(item.getEmployeeId());
+            if(!msg.getType().equals(MessageType.ERROR)) {
+                User u = (User) msg.getBody().get(0);
+                userSet.add(u);
+                item.setEmployeeId(u.getFirstName() +
+                        " " +
+                        u.getMiddleName() + " " +
+                        u.getLastName());
+            }
+        });
+        timetableTableModel.setData(timetableList);
+        RowSorter<TimetableTableModel> sorter = new TableRowSorter<TimetableTableModel>(
+                timetableTableModel);
+        table.setRowSorter(sorter);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        popupMenu.hide();
+        if(e.getSource().equals(table)) {
+            int row = table.rowAtPoint(e.getPoint());
+            User employee = null;
+            for(User u:userSet){
+                if((u.getFirstName()+" "+u.getMiddleName() +" "+ u.getLastName()).equals(table.getValueAt(row, 0))) {
+                    employee = u;
+                }
+            }
+            popupMenu.draw(e.getXOnScreen()+50, e.getYOnScreen(),table, employee);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        popupMenu.hide();
     }
 
     @Override

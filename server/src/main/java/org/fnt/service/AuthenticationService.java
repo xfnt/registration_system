@@ -1,14 +1,15 @@
 package org.fnt.service;
 
 
+import org.fnt.connection.ConnectionFactory;
 import org.fnt.model.entity.AuthenticationInformation;
 import org.fnt.repository.AuthenticationRepository;
 
 public class AuthenticationService {
     private AuthenticationRepository repository;
 
-    public AuthenticationService() {
-        repository = new AuthenticationRepository();
+    public AuthenticationService(ConnectionFactory factory) {
+        repository = new AuthenticationRepository(factory);
     }
 
     public boolean auth(AuthenticationInformation authenticationInformation) {

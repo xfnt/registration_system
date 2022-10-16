@@ -6,17 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ApplicationConfiguration {
-    public static String databaseHost;
-    public static int databasePort;
-    public static String databaseName;
-    public static String databaseSchema;
-    public static String databaseURL;
-    public static String databaseLogin;
-    public static  String databasePassword;
+    private String databaseHost;
+    private int databasePort;
+    public String databaseName;
+    private String databaseSchema;
+    private String databaseURL;
+    private String databaseLogin;
+    private  String databasePassword;
+    private int serverPort;
 
-    public static int serverPort;
 
-    public static void propertyInitialization() {
+    public ApplicationConfiguration propertyInitialization() {
         File propFile = new File("server.properties");
         try (InputStream fileInputStream = new FileInputStream(propFile)) {
             java.util.Properties properties = new java.util.Properties();
@@ -38,6 +38,38 @@ public class ApplicationConfiguration {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return this;
     }
 
+    public String getDatabaseHost() {
+        return databaseHost;
+    }
+
+    public int getDatabasePort() {
+        return databasePort;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public String getDatabaseSchema() {
+        return databaseSchema;
+    }
+
+    public String getDatabaseURL() {
+        return databaseURL;
+    }
+
+    public String getDatabaseLogin() {
+        return databaseLogin;
+    }
+
+    public String getDatabasePassword() {
+        return databasePassword;
+    }
+
+    public int getServerPort() {
+        return serverPort;
+    }
 }

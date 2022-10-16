@@ -10,7 +10,7 @@ public class ApplicationConfiguration {
     public static int serverPort;
 
     public static void propertyInitialization() {
-        File propFile = new File("server.properties");
+        File propFile = new File("client.properties");
         try (InputStream fileInputStream = new FileInputStream(propFile)) {
             java.util.Properties properties = new java.util.Properties();
             properties.load(fileInputStream);

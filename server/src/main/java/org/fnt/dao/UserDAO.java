@@ -12,8 +12,8 @@ public class UserDAO implements DAO<User> {
     private ConnectionFactory connectionFactory;
     private Connection connection;
 
-    public UserDAO() {
-        this.connectionFactory = new ConnectionFactory();
+    public UserDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
     @Override
