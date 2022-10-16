@@ -17,6 +17,7 @@ public class Server {
     private Set<ClientHandler> clientHandlers;
     private ApplicationConfiguration configuration;
     private ConnectionFactory connectionFactory;
+    private long id = 1;
 
     public Server(ApplicationConfiguration configuration) {
         this.configuration = configuration;
@@ -31,7 +32,8 @@ public class Server {
                 log.info("Server waiting a client...");
                 client = serverSocket.accept();
                 log.info("Client accepted : " + client);
-                new ClientHandler(client, this, connectionFactory);
+                new ClientHandler(id, client, this, connectionFactory);
+                id++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
