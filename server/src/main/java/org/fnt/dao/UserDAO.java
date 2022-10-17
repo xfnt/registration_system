@@ -90,6 +90,39 @@ public class UserDAO implements DAO<User> {
         return userList;
     }
 
+    public List<User> getAllByPage(int pageNumber, int pageSize) {
+        connection = connectionFactory.getConnection();
+        String sql = String.format("SELECT * FROM users ORDER BY id LIMIT %d OFFSET((%d)*%d);", pageSize, pageNumber, pageSize);
+        List<User> userList = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            userList = new ArrayList<>();
+            while(resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getString("id"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setMiddleName(resultSet.getString("middle_name"));
+                user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime().toLocalDate());
+                user.setPhoneNumber(resultSet.getString("phone_number"));
+                user.setType(UserType.valueOf(resultSet.getString("user_type")));
+                user.setDeleted(resultSet.getBoolean("deleted"));
+                user.setAdmin(resultSet.getBoolean("admin"));
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            close();
+            throw new RuntimeException(e);
+        }
+
+        close();
+        return userList;
+    }
+
     public List<User> getAllByType(UserType type) {
         connection = connectionFactory.getConnection();
         String sql = """

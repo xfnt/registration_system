@@ -96,7 +96,13 @@ public class MessageService {
         // Получение списка всех пользователей
         if(message.getText().equals("-GET_ALL_USER")) {
             log.info(String.format("%s starts getting user list", clientHandler.getConnectionId()));
-            List<User> userList = userService.getAll();
+            List<User> userList = null;
+            if(message.getPageSize() == 0) {
+                userList = userService.getAll();
+            }else {
+                userList = userService.getAllByPage(message.getPageNumber(), message.getPageSize());
+            }
+
             if(userList != null) {
                 clientHandler.write(new Message(MessageType.RESPONSE, String.valueOf(clientHandler.getConnectionId()),"-GET_ALL_USERS_SUCCESS", userList));
                 log.info(String.format("%s ends getting user list", clientHandler.getConnectionId()));

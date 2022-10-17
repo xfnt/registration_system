@@ -50,14 +50,18 @@ public class UserService {
         return message;
     }
 
-    public Message<Sendable> getAll(String currentUser) {
+    public Message<Sendable> getAll(String currentUser, int pageNumber, int pageSize) {
         Message message = null;
         messageService.write(
                 new Message(
                         MessageType.REQUEST,
                         "",
                         "-GET_ALL_USER",
-                        null));
+                        null,
+                        pageNumber,
+                        pageSize
+                        )
+        );
         message = messageService.read();
         return message;
     }
