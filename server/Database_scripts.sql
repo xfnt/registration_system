@@ -50,3 +50,22 @@ CREATE TABLE timetable (
     CONSTRAINT "FK_EMP" FOREIGN KEY (employee) REFERENCES users(id),
     CONSTRAINT "FK_USER" FOREIGN KEY ("user") REFERENCES users(id)
 );
+
+-- Функция для пагинации
+-- CREATE OR REPLACE FUNCTION reg_sys.pagination(
+--     PageNumber INTEGER = NULL,
+--     PageSize INTEGER = null
+-- )
+--     RETURNS SETOF reg_sys.users as
+-- $BODY$
+-- BEGIN
+--     return  query
+--         select *
+--         from reg_sys.users
+--         order by id
+--         limit PageSize
+--             offset ((PageNumber-1)*PageSize);
+-- end;
+-- $BODY$
+--     LANGUAGE plpgsql;
+-- ;

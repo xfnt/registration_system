@@ -30,6 +30,11 @@ public class UserService {
         return repository.update(user);
     }
 
+    public List<User> getAllByPage(int pageNumber, int pageSize) {
+//        return repository.getAll();
+        return repository.getAllByPage(pageNumber, pageSize);
+    }
+
     public List<User> getAll() {
         return repository.getAll();
     }

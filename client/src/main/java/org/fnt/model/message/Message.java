@@ -9,6 +9,8 @@ public class Message<T> implements Serializable {
     private String userId;
     private String text;
     private List<T> body;
+    private int pageSize;
+    private int pageNumber;
 
     public Message() {
     }
@@ -18,6 +20,15 @@ public class Message<T> implements Serializable {
         this.userId = userId;
         this.text = action;
         this.body = body;
+    }
+
+    public Message(MessageType type, String userId, String action, List<T> body, int pageNumber, int pageSize) {
+        this.type = type;
+        this.userId = userId;
+        this.text = action;
+        this.body = body;
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
     }
 
     public MessageType getType() {
@@ -50,5 +61,21 @@ public class Message<T> implements Serializable {
 
     public void setBody(List<T> body) {
         this.body = body;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
     }
 }

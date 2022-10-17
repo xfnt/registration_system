@@ -31,7 +31,8 @@ public class RightsMenu implements IMenu, ActionListener {
     private JTable table;
     private RightsTableModel rightsTableModel;
 
-    private JButton accept, back;
+    private JButton accept, back, backward, forward;
+    private int pageNumber = 0;
 
     public RightsMenu(MenuHolder menuHolder, JPanel panel, GroupLayout layout) {
         this.menuHolder = menuHolder;
@@ -53,6 +54,15 @@ public class RightsMenu implements IMenu, ActionListener {
         purchasedClasses.addItem(UserType.USER);
         purchasedColumn.setCellEditor(new DefaultCellEditor(purchasedClasses));
 
+        forward = new JButton(">>");
+        forward.setName("FORWARD");
+        forward.addActionListener(this);
+
+        backward = new JButton("<<");
+        backward.setName("BACKWARD");
+        backward.setEnabled(false);
+        backward.addActionListener(this);
+
         accept = new JButton("СОХРАНИТЬ");
         accept.setName("ACCEPT");
         accept.addActionListener(this);
@@ -69,6 +79,40 @@ public class RightsMenu implements IMenu, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource().equals(forward)) {
+            pageNumber++;
+
+            if(!backward.isEnabled()) {
+                backward.setEnabled(true);
+            }
+            List<User> userList = readUserList();
+            if(userList.isEmpty()){
+                forward.setEnabled(false);
+                return;
+            }
+
+            rightsTableModel.setData(readUserList());
+        }
+
+        if(e.getSource().equals(backward)) {
+            if(pageNumber > 0) {
+                pageNumber--;
+            } else {
+                backward.setEnabled(false);
+            }
+
+            if(!forward.isEnabled()) {
+                forward.setEnabled(true);
+            }
+
+            List<User> userList = readUserList();
+            if(userList.isEmpty()){
+                forward.setEnabled(false);
+            }
+            rightsTableModel.setData(readUserList());
+        }
+
         if(e.getSource().equals(accept)) {
             if(!rightsTableModel.getChangedUserList().isEmpty()) {
                 Message<Sendable> message = menuHolder.getUserService()
@@ -93,7 +137,7 @@ public class RightsMenu implements IMenu, ActionListener {
     }
 
     private List<User> readUserList() {
-        Message<Sendable> message = menuHolder.getUserService().getAll(menuHolder.getUser().getId());
+        Message<Sendable> message = menuHolder.getUserService().getAll(menuHolder.getUser().getId(), pageNumber, 5);
         if(message.getType().equals(MessageType.ERROR)) {
             JOptionPane.showMessageDialog(panel, "Неудалось выгрузить список пользователей, обратитесь к разработчику...");
             menuHolder.getMenu(MenuType.MAIN).show();
@@ -117,6 +161,10 @@ public class RightsMenu implements IMenu, ActionListener {
                 .addComponent(title)
                 .addComponent(scrollPane)
                 .addGroup(layout.createSequentialGroup()
+                        .addComponent(backward)
+                        .addComponent(forward)
+                )
+                .addGroup(layout.createSequentialGroup()
                     .addComponent(accept)
                     .addComponent(back)
                 )
@@ -125,6 +173,10 @@ public class RightsMenu implements IMenu, ActionListener {
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(title)
                 .addComponent(scrollPane)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addComponent(backward)
+                        .addComponent(forward)
+                )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                     .addComponent(accept)
                     .addComponent(back)

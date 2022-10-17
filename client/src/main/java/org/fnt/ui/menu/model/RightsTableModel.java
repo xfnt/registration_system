@@ -94,6 +94,7 @@ public class RightsTableModel extends AbstractTableModel {
 
     public void setData(List<User> data) {
         this.data = data;
+        updateTable();
     }
 
     public List<User> getChangedUserList() {
