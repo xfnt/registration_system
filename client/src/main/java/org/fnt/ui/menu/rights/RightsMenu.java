@@ -89,6 +89,7 @@ public class RightsMenu implements IMenu, ActionListener {
             List<User> userList = readUserList();
             if(userList.isEmpty()){
                 forward.setEnabled(false);
+                pageNumber--;
                 return;
             }
 
@@ -98,6 +99,7 @@ public class RightsMenu implements IMenu, ActionListener {
         if(e.getSource().equals(backward)) {
             if(pageNumber > 0) {
                 pageNumber--;
+                if(pageNumber == 0) backward.setEnabled(false);
             } else {
                 backward.setEnabled(false);
             }
