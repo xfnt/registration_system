@@ -1,7 +1,7 @@
 package com.example.dao;
 
 
-import com.example.model.entity.user.UserType;
+import com.example.model.UserType;
 import com.example.connection.ConnectionFactory;
 import com.example.model.entity.Timetable;
 
@@ -33,17 +33,17 @@ public class TimetableDAO implements DAO<Timetable> {
     public List<Timetable> getAll(String id, UserType type) {
         connection = connectionFactory.getConnection();
         String sql = null;
-        if(type==UserType.USER) {
-            sql = """
-                SELECT * FROM timetable t
-                WHERE t.user=?;
-                """;
-        }else {
-            sql = """
-                SELECT * FROM timetable t
-                WHERE t.employee=?;
-                """;
-        }
+//        if(type==UserType.USER) {
+//            sql = """
+//                SELECT * FROM timetable t
+//                WHERE t.user=?;
+//                """;
+//        }else {
+//            sql = """
+//                SELECT * FROM timetable t
+//                WHERE t.employee=?;
+//                """;
+//        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         List<Timetable> timetableList= new ArrayList<>();

@@ -1,7 +1,7 @@
 package com.example.service;
 
 
-import com.example.model.entity.user.UserType;
+import com.example.model.UserType;
 import com.example.connection.ConnectionFactory;
 import com.example.model.entity.Timetable;
 import com.example.repository.TimetableRepository;

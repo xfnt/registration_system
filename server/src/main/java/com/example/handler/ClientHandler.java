@@ -1,7 +1,6 @@
 package com.example.handler;
 
 import com.example.net.Server;
-import com.example.service.MessageService;
 import com.example.connection.ConnectionFactory;
 import com.example.model.message.Message;
 
@@ -21,7 +20,7 @@ public class ClientHandler {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
-    private MessageService requestService;
+//    private MessageService requestService;
 
     private boolean isConnected = true;
 
@@ -29,7 +28,7 @@ public class ClientHandler {
         this.connectionId = connectionId;
         this.socket = socket;
         this.server = server;
-        requestService = new MessageService(this, connectionFactory);
+//        requestService = new MessageService(this, connectionFactory);
         start();
     }
 
@@ -49,7 +48,7 @@ public class ClientHandler {
                 }
                 Message message = null;
                 message = (Message) input.readObject();
-                requestService.readRequest(message);
+//                requestService.readRequest(message);
             }catch (IOException e) {
                 isConnected = false;
                 log.info("Something went wrong while reading message...");

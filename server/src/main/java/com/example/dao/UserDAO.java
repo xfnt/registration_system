@@ -1,8 +1,8 @@
 package com.example.dao;
 
-import com.example.model.entity.user.UserType;
+import com.example.model.UserType;
 import com.example.connection.ConnectionFactory;
-import com.example.model.entity.user.User;
+import com.example.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class UserDAO implements DAO<User> {
                 user.setMiddleName(resultSet.getString("middle_name"));
                 user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime().toLocalDate());
                 user.setPhoneNumber(resultSet.getString("phone_number"));
-                user.setType(UserType.valueOf(resultSet.getString("user_type")));
+//                user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
                 user.setAdmin(resultSet.getBoolean("admin"));
             }
@@ -76,7 +76,7 @@ public class UserDAO implements DAO<User> {
                 user.setMiddleName(resultSet.getString("middle_name"));
                 user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime().toLocalDate());
                 user.setPhoneNumber(resultSet.getString("phone_number"));
-                user.setType(UserType.valueOf(resultSet.getString("user_type")));
+//                user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
                 user.setAdmin(resultSet.getBoolean("admin"));
                 userList.add(user);
@@ -109,7 +109,7 @@ public class UserDAO implements DAO<User> {
                 user.setMiddleName(resultSet.getString("middle_name"));
                 user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime().toLocalDate());
                 user.setPhoneNumber(resultSet.getString("phone_number"));
-                user.setType(UserType.valueOf(resultSet.getString("user_type")));
+//                user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
                 user.setAdmin(resultSet.getBoolean("admin"));
                 userList.add(user);
@@ -134,7 +134,7 @@ public class UserDAO implements DAO<User> {
         ResultSet resultSet = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, type.name());
+//            preparedStatement.setString(1, type.name());
             resultSet = preparedStatement.executeQuery();
 
             userList = new ArrayList<>();
@@ -146,7 +146,7 @@ public class UserDAO implements DAO<User> {
                 user.setMiddleName(resultSet.getString("middle_name"));
                 user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime().toLocalDate());
                 user.setPhoneNumber(resultSet.getString("phone_number"));
-                user.setType(UserType.valueOf(resultSet.getString("user_type")));
+//                user.setType(UserType.valueOf(resultSet.getString("user_type")));
                 user.setDeleted(resultSet.getBoolean("deleted"));
                 user.setAdmin(resultSet.getBoolean("admin"));
                 userList.add(user);
@@ -176,7 +176,7 @@ public class UserDAO implements DAO<User> {
             preparedStatement.setString(4, object.getMiddleName());
             preparedStatement.setTimestamp(5, Timestamp.valueOf(object.getBirthDate().atStartOfDay()));
             preparedStatement.setString(6, object.getPhoneNumber());
-            preparedStatement.setString(7, object.getType().toString());
+//            preparedStatement.setString(7, object.getType().toString());
             preparedStatement.setBoolean(8, object.isDeleted());
             preparedStatement.setBoolean(9, object.isAdmin());
             preparedStatement.execute();
@@ -229,7 +229,7 @@ public class UserDAO implements DAO<User> {
             preparedStatement.setString(3, object.getMiddleName());
             preparedStatement.setTimestamp(4, Timestamp.valueOf(object.getBirthDate().atStartOfDay()));
             preparedStatement.setString(5, object.getPhoneNumber());
-            preparedStatement.setString(6, object.getType().toString());
+//            preparedStatement.setString(6, object.getType().toString());
             preparedStatement.setBoolean(7, object.isDeleted());
             preparedStatement.setBoolean(8, object.isAdmin());
             preparedStatement.setString(9, object.getId());
